@@ -7,22 +7,18 @@ fn main() {
         print!("$ ");
         io::stdout().flush().unwrap();
         
-        // Handling invalid commands
-        //Captures the user's command in the command variable
+        
         let mut command = String::new();
         io::stdin().read_line(&mut command).unwrap();
         //Prints the "<command> : command not found" message to the console
 
         command = command.trim().to_string();
-
-        if command.starts_with("echo ") {
-            let output = command[5..].trim();
-            println!("{}", output);
-        }
-        // Exit the loop if the user types "exit"
-        if command.trim() == "exit" {
+        if command == "exit" {
             break;
+        } else if command.starts_with("echo ") {
+            println!("{}", &command[5..]);
+        } else {
+            println!("{}: command not found", command);
         }
-        println!("{}: command not found", command.trim());
     }
 }
