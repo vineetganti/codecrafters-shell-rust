@@ -12,6 +12,12 @@ fn main() {
         let mut command = String::new();
         io::stdin().read_line(&mut command).unwrap();
         //Prints the "<command> : command not found" message to the console
+
+        command = command.trim().to_string();
+        // Exit the loop if the user types "exit"
+        if command.trim() == "exit" {
+            break;
+        }
         println!("{}: command not found", command.trim());
     }
 }
