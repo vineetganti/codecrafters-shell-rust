@@ -14,6 +14,11 @@ fn main() {
         //Prints the "<command> : command not found" message to the console
 
         command = command.trim().to_string();
+
+        if command.starts_with("echo ") {
+            let output = command[5..].trim();
+            println!("{}", output);
+        }
         // Exit the loop if the user types "exit"
         if command.trim() == "exit" {
             break;
