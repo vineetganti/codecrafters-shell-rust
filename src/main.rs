@@ -4,7 +4,6 @@ use std::env;
 use std::fs;
 use std::os::unix::fs::PermissionsExt;
 use std::path::PathBuf;
-use std::io::[self, Write];
 
 fn find_in_path(cmd: &str) -> Option<PathBuf> {
     let path_var = env::var("PATH").ok()?;
