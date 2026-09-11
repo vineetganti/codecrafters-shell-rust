@@ -22,7 +22,7 @@ fn main() {
             if cmd == "echo" || cmd == "exit" || cmd == "type" {
                 println!("{} is a shell builtin", cmd);
             } else {
-                println!("{}:not found", cmd);
+                println!("{}: not found", cmd);
             }
         } else {
             println!("{}: command not found", command);
