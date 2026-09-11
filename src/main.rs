@@ -17,22 +17,15 @@ fn main() {
             break;
         } else if command.starts_with("echo ") {
             println!("{}", &command[5..]);
-        } else {
-            println!("{}: command not found", command);
-        }
-
-        // type builtin
-        if command.starts_with("type ") {
+        } else if command.starts_with("type ") {
             let cmd = &command[5..];
-            if cmd == "echo" {
-                println!("{} is a shell builtin", cmd);
-            } else if cmd == "exit" {
-                println!("{} is a shell builtin", cmd);
-            } else if cmd == "type" {
+            if cmd == "echo" || cmd == "exit" || cmd == "type" {
                 println!("{} is a shell builtin", cmd);
             } else {
-                println!("{}: command not found", cmd);
+                println!("{}:not found", cmd);
             }
+        } else {
+            println!("{}: command not found", command);
         }
     }
 }
