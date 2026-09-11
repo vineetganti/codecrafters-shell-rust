@@ -9,7 +9,7 @@ fn find_in_path(cmd: &str) -> Option<PathBuf> {
     let path_var = env::var("PATH").ok()?;
     for dir in env::split_paths(&path_var) {
         let candidate = dir.join(cmd);
-        if let Ok(metadata) = fs::meatadata(&candidate) {
+        if let Ok(metadata) = fs::metadata(&candidate) {
             let is_file = metadata.is_file();
             let is_executable = metadata.permissions().mode() & 0o111 != 0;
             if is_file && is_executable {
