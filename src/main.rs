@@ -40,7 +40,11 @@ fn main() {
             let cmd = &command[5..];
             if cmd == "echo" || cmd == "exit" || cmd == "type" {
                 println!("{} is a shell builtin", cmd);
-            } else {
+            } 
+            else if let Some(path) = find_in_path(cmd) {
+                println!("{} is {}", cmd, path.display());
+            }
+            else {
                 println!("{}: not found", cmd);
             }
         } else {
