@@ -7,7 +7,7 @@ fn main() {
         print!("$ ");
         io::stdout().flush().unwrap();
         
-        
+
         let mut command = String::new();
         io::stdin().read_line(&mut command).unwrap();
         //Prints the "<command> : command not found" message to the console
@@ -20,5 +20,20 @@ fn main() {
         } else {
             println!("{}: command not found", command);
         }
+
+        // type builtin
+        if command.starts_with("type ") {
+            let cmd = &command[5..];
+            if cmd == "echo" {
+                println!("{} is a shell builtin", cmd);
+            } else if cmd == "exit" {
+                println!("{} is a shell builtin", cmd);
+            } else if cmd == "type" {
+                println!("{} is a shell builtin", cmd);
+            } else {
+                println!("{}: command not found", cmd);
+            }
+        }
     }
 }
+
