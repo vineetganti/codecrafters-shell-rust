@@ -1,5 +1,25 @@
 #[allow(unused_imports)]
 use std::io::{self, Write};
+use std::env;
+use std::fs;
+use std::os::unix::fs::PermissionsExt;
+use std::path::PathBuf;
+use std::io::[self, Write];
+
+fn find_in_path(cmd: &str) -> Option<PathBuf> {
+    let path_var = env::var("PATH").ok()?;
+    for dir in env::split_paths(&path_var) {
+        let candidate = dir.join(cmd);
+        if let Ok(metadata) = fs::meatadata(&candidate) {
+            let is_file = metadata.is_file();
+            let is_executable = metadata.permissions().mode() & 0o111 != 0;
+            if is_file && is_executable {
+                return Some(candidate);
+            }
+        }
+    }
+    None
+}
 
 fn main() {
     loop {
