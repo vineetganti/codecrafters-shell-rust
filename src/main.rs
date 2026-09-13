@@ -45,9 +45,9 @@ fn main() {
         
         if command == "exit" {
             break;
-        } else if command.starts_with("echo ") {
+        } else if command == "echo" {
             println!("{}", args.join(" "));
-        } else if command.starts_with("type ") {
+        } else if command == "type" {
             let target = args.get(0).copied().unwrap_or("");
             if target == "echo" || target == "exit" || target == "type" {
                 println!("{} is a shell builtin", target);
