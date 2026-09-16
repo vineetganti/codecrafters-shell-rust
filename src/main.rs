@@ -55,19 +55,20 @@ fn main() {
             else if let Some(path) = find_in_path(target) {
                 println!("{} is {}", target, path.display()); // found as an external executable on PATH
             }
-            else if command == "pwd" {
-                match env::current_dir() { // built-in: print the current working directory
-                    Ok(path) => println!("{}", path.display()), // display the path in a human-readable way
-                    Err(e) => eprintln!("pwd: error retrieving current directory: {}", e), // e.g. permission denied, path not found
-                }
-            }
             else {
                 println!("{}: not found", target); // not a builtin and not on PATH
             }
         } else if command == "pwd" {
-            match env::current_dir() {
-                Ok(path) => println!("{}", path.display()),
-                Err(e) => eprintln!("pwd: error retrieving current directory: {}", e),
+            match env::current_dir() { // built-in: print the current working directory
+                Ok(path) => println!("{}", path.display()), // display the path in a human-readable way
+                Err(e) => eprintln!("pwd: error retrieving current directory: {}", e), // e.g. permission denied, path not found
+            }
+        } else if command == "cd" {
+            let target = args.get(0).copied().unwrap_or("");
+            if target.is_empty() {
+                eprintln!("cd: missing argument");
+            } else if let Err(e) = env::set_current_dir(target) {
+                eprintln!("cd: {}: No such file or directory", target); // e.g. no such file or directory, permission denied
             }
         }
          else if let Some(path) = find_in_path(command) {
