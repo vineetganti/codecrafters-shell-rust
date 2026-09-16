@@ -64,11 +64,18 @@ fn main() {
                 Err(e) => eprintln!("pwd: error retrieving current directory: {}", e), // e.g. permission denied, path not found
             }
         } else if command == "cd" {
-            let target = args.get(0).copied().unwrap_or("");
+            let target = args.get(0).copied().unwrap_or(""); // the directory to change to, or empty if none was provided
             if target.is_empty() {
-                eprintln!("cd: missing argument");
+                eprintln!("cd: missing argument"); // no directory was provided
             } else if let Err(e) = env::set_current_dir(target) {
                 eprintln!("cd: {}: No such file or directory", target); // e.g. no such file or directory, permission denied
+            }
+        } else if command == "cd ~" {
+            // tilde expansion: replace "~" with the user's home directory
+            if let Some(home) = env::var_os("HOME") {
+                println!("{}", home.to_string_lossy()); // print the home directory path
+            } else {
+                eprintln!("~: HOME environment variable not set"); // HOME is not set
             }
         }
          else if let Some(path) = find_in_path(command) {
