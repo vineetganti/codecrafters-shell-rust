@@ -68,7 +68,7 @@ fn main() {
             if target.is_empty() {
                 eprintln!("cd: missing argument"); // no directory was provided
             } else {
-                let expanded: PathBuf = if raw_target == "~" { // special case: "~" alone means the user's home directory
+                let expanded: PathBuf = if target == "~" { // special case: "~" alone means the user's home directory
                     match env::var_os("HOME") { // get the user's home directory from the HOME environment variable
                         Some(home) => PathBuf::from(home), // convert the OsString to a PathBuf
                         None => {
@@ -76,7 +76,7 @@ fn main() {
                             continue;
                         }
                     }
-                } else if let Some(rest) = raw_target.strip_prefix("~/") { // special case: "~/..." means a path relative to the user's home directory
+                } else if let Some(rest) = target.strip_prefix("~/") { // special case: "~/..." means a path relative to the user's home directory
                     match env::var_os("HOME") {
                         Some(home) => PathBuf::from(home).join(rest),
                         None => {
@@ -85,11 +85,11 @@ fn main() {
                         }
                     }
                 } else {
-                    PathBuf::from(raw_target) // otherwise, just use the provided path as-is
+                    PathBuf::from(target) // otherwise, just use the provided path as-is
                 };
 
                 if env::set_current_dir(&expanded).is_err() { // attempt to change the current working directory
-                    eprintln!("cd: {}: No such file or directory", raw_target); // e.g. no such file or directory, permission denied
+                    eprintln!("cd: {}: No such file or directory", target); // e.g. no such file or directory, permission denied
                 }
             }
         } 
