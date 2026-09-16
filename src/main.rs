@@ -49,7 +49,7 @@ fn main() {
             println!("{}", args.join(" ")); // built-in: print args back out, space-separated
         } else if command == "type" {
             let target = args.get(0).copied().unwrap_or(""); // the command name `type` is being asked about
-            if target == "echo" || target == "exit" || target == "type" {
+            if target == "echo" || target == "exit" || target == "type" || target == "pwd" {
                 println!("{} is a shell builtin", target); // these are handled directly in this loop
             }
             else if let Some(path) = find_in_path(target) {
@@ -64,7 +64,13 @@ fn main() {
             else {
                 println!("{}: not found", target); // not a builtin and not on PATH
             }
-        } else if let Some(path) = find_in_path(command) {
+        } else if command == "pwd" {
+            match env::current_dir() {
+                Ok(path) => println!("{}", path.display()),
+                Err(e) => eprintln!("pwd: error retrieving current directory: {}", e),
+            }
+        }
+         else if let Some(path) = find_in_path(command) {
             // command isn't a builtin, but an executable with this name exists on PATH
             let status = Command::new(&path)
                 .arg0(command) // make argv[0] the typed name, not the full resolved path
